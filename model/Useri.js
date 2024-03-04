@@ -15,6 +15,8 @@ const UserSchema = new Schema({
   email : {
     type : String,
     required : true
+
+    //custom validation for email check email here 
   },
   phone : Number,
   password :{

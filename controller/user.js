@@ -42,10 +42,20 @@ const signUp =async (req,res,next)=>{
                 }
             })
         })
-
-
-                
-            }
+    }
+    //email validation
+    let user = await User.findOne({email: req.body.email});
+    if(user){
+        return res.status(400).send({
+            msg: "validation error",
+            errors: [
+                {
+                    field : "email",
+                    msg : "email already used"
+                }
+            ]
+        });
+    }
             try{
                 
         let hashed = await bcrypt.hash(req.body.password,10);
@@ -75,17 +85,21 @@ const login =async (req,res)=>{
 
        
        let user = await User.findOne({email:req.body.email })
-       let result = await bcrypt.compare(req.body.password,user.password)
        
-       if(user && result){
-        let token = jwt.sign({ foo: 'bar' }, 'shhhhh');
-           res.send({
-            token
-           })
-           
-        }else{
-            res.status(401).send({msg : "invalid credintials"})
+       if(user){
+           let result = await bcrypt.compare(req.body.password,user.password)
+        if(result){
+            user.password = undefined
+            let token = jwt.sign( {user} , 'shhhhh');
+             return res.send({
+                token
+            })
         }
+        res.status(401).send({msg : "invalid credintials"})
+    }
+
+           
+        
         
     }catch(err){
         next(err)

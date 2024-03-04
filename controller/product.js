@@ -1,5 +1,5 @@
  const Product = require("../model/Product")
-//  const User = require("../model/Useri")
+ const User = require("../model/Useri")
  
  const fetchProduct = async (req,res)=>{
     // res.send("list of products")
@@ -8,14 +8,22 @@
 }
 
 
-const storeProduct = async (req,res)=>{
+const storeProduct = async (req,res,next)=>{
     // res.send("mew product added")
+
+    try{
+
     
-    const {title,price,createdBy} = req.body;
+   //  const {title,price,createdBy} = req.body;
     // const name = req.body.name;
-    let products = await Product.create({title,price,createdBy})
-    res.send(products)
     
+    let products = await Product.create({...req.body,
+   createdBy : req.user._id
+   })
+    res.send(products)
+   }catch(err){
+      next(err)
+   }
     
 }
 const updateProduct = async (req,res)=>{

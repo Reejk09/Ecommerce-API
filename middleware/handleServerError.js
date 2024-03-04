@@ -14,6 +14,9 @@ module.exports = (err,req,res,next)=>{
         errors = {
             email : "already exists",
             password : "required field"
+        },
+        {
+            error : err.Stack
         }
     }
     
@@ -25,5 +28,5 @@ module.exports = (err,req,res,next)=>{
 
 
 
-    console.log(err.name);
+    // console.log(err.name);
 }
