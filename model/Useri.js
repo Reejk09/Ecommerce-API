@@ -14,16 +14,36 @@ const UserSchema = new Schema({
   }, 
   email : {
     type : String,
-    required : true
+    required : true,
 
     //custom validation for email check email here 
+    validate : {
+      validator: async (value)=>{
+      let matched = await mongoose.models.User.findOne({email:value})
+      if(matched){
+
+        return false;
+      }
+
+    },
+    message : "email already used "
   },
+},
   phone : Number,
   password :{
     type : String,
     required: true
      
-  } 
+  },
+  role:{
+    type : String,
+    enum : ["buyer", "seller"],
+    required : true,
+    set:(value)=>{
+      console.log(value);
+      return value.toLowerCase();
+    }
+  }
  
   
 });

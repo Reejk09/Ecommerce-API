@@ -1,6 +1,6 @@
 const express = require("express");
 const { fetchProduct, updateProduct,storeProduct,deleteProduct,} = require("../controller/product");
-const { chechkAuthentication } = require("../middleware/auth");
+const { chechkAuthentication,isSeller } = require("../middleware/auth");
 
 const router = express.Router();
 // const { checkAuthentication } = require("../middleware/auth")
@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 router.get("",fetchProduct)
-router.post("",chechkAuthentication,storeProduct)
+router.post("",chechkAuthentication,isSeller,storeProduct)
 router.put("/:_id",updateProduct)
 router.delete("/:_id",deleteProduct)
 

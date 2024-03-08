@@ -17,9 +17,9 @@ const storeProduct = async (req,res,next)=>{
    //  const {title,price,createdBy} = req.body;
     // const name = req.body.name;
     
-    let products = await Product.create({...req.body,
-   createdBy : req.user._id
-   })
+    let products = await Product.create({...req.body,createdBy : req.user._id
+   });
+   console.log(products);
     res.send(products)
    }catch(err){
       next(err)

@@ -89,10 +89,11 @@ const login =async (req,res)=>{
        if(user){
            let result = await bcrypt.compare(req.body.password,user.password)
         if(result){
+            user = user.toObject();
             user.password = undefined
-            let token = jwt.sign( {user} , 'shhhhh');
+            let token = jwt.sign( user , 'yourSecretSignature',{expiresIn : "7d"});
              return res.send({
-                token
+                token , user
             })
         }
         res.status(401).send({msg : "invalid credintials"})
@@ -104,21 +105,11 @@ const login =async (req,res)=>{
     }catch(err){
         next(err)
     }
-//null
 
-
-// console.log(hashed);
-
-
-//    if(user){
-    
-//        res.send("login succesful")
-//     }else{
-//        res.status(401).send(error={msg:"invalid credintials"})
-//    }
 
 
 }
+
 
 
 
