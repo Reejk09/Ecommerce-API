@@ -18,11 +18,19 @@ const ProductSchema = new Schema({
     min : 0
 
   },
+  description : {
+    type : String,
+    maxLength : 255,
+  },
   createdBy : {
     type : ObjectId,
     ref: "User",
     required : true
+  },
+  image : {
+    type : String,
   }
+
   
 });
 const Product = mongoose.model("Product",ProductSchema)
