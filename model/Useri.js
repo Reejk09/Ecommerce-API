@@ -1,3 +1,4 @@
+const { string } = require('joi');
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://127.0.0.1:27017/ecommerce')
@@ -43,7 +44,12 @@ const UserSchema = new Schema({
       console.log(value);
       return value.toLowerCase();
     }
-  }
+  
+  },
+  address:{
+    street : String,
+    ward : Number
+  },
  
   
 });

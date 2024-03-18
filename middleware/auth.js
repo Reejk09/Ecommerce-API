@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { SELLER } = require("../constants/role");
+const { SELLER, BUYER } = require("../constants/role");
 function chechkAuthentication(req,res,next){
     // console.log(req.headers.authorization);
     let token = req.headers.authorization?.replaceAll("Bearer ","");
@@ -29,13 +29,22 @@ const isSeller = (req,res,next) =>{
     if(req.user.role=== SELLER){
         return next()
     }
-
     res.status(403).send({
         msg: "only for sellers"
     })
 }
+const isBuyer = (req,res,next) =>{
+    if(req.user.role=== BUYER){
+        return next()
+    }
+    res.status(403).send({
+        msg: "only for buyer"
+    })
+
+   
+}
 module.exports = {
-    chechkAuthentication,isSeller
+    chechkAuthentication,isSeller,isBuyer
 }
 
 
